@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const menuTemplate = require('./menu');
 const env = process.env.NODE_ENV || 'development';
+const initIpc = require('./ipc');
 
 // hot reload
 if (env === 'development') {
@@ -11,24 +12,30 @@ if (env === 'development') {
   });
 }
 
-function createWindow() {
+async function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1220,
+    height: 800,
     webPreferences: {
+      nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js')
     }
   });
 
-  win.loadFile('index.html');
+  if (env === "development") {
+    await win.loadURL(`http://localhost:5173/water`);
+  } else {
+    await win.loadFile('../web/dist/index.html');
+  }
+
   win.webContents.openDevTools({ mode: 'right' });
 
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
-
 }
 
 app.whenReady().then(() => {
+  initIpc();
   createWindow();
 
   app.on('activate', () => {

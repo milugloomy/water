@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: defineAsyncComponent(() => import('./views/hello.vue')),
+      component: () => import('./views/hello.vue'),
       meta: {
         title: '首页',
       },
@@ -15,7 +15,7 @@ const router = createRouter({
     {
       path: '/water',
       name: 'water',
-      component: defineAsyncComponent(() => import('./views/water/index.vue')),
+      component: () => import('./views/water/index.vue'),
       meta: {
         title: '列表页',
       },
@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to, from) => {
-  console.log('afterEach');
+  console.log('afterEach', to);
 });
 
 export default router;

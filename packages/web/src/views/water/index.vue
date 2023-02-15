@@ -8,7 +8,9 @@
       </div>
       <Add />
     </div>
-    <div class="bottom"></div>
+    <div class="bottom">
+<!--      <Output />-->
+    </div>
   </div>
   <input
     ref="uploadInput"
@@ -27,6 +29,7 @@ import ImageBlock from './ImageBlock.vue';
 import ImageScroll from './ImageScroll.vue';
 import Control from './Control.vue';
 import Add from './Add.vue';
+// import Output from './Output.vue';
 import { storeToRefs } from 'pinia';
 import waterStore from './waterStore';
 import global from '../../common/global';

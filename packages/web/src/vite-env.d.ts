@@ -8,6 +8,16 @@ declare module '*.vue' {
   export default component
 }
 
-interface Window {
-  canvas: fabric.Canvas;
+declare global {
+  interface Window {
+    canvas: fabric.Canvas;
+    versions: {
+      node: string;
+      chrome: string;
+      electron: string;
+    };
+    electronAPI: {
+      openDirectoryDialog: () => Promise<string>;
+    }
+  }
 }
