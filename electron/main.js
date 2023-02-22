@@ -5,12 +5,12 @@ const env = process.env.NODE_ENV || 'development';
 const initIpc = require('./ipc');
 
 // hot reload
-if (env === 'development') {
-  require('electron-reloader')(module, {
-    debug: true,
-    watchRenderer: true
-  });
-}
+// if (env === 'development') {
+//   require('electron-reloader')(module, {
+//     debug: true,
+//     watchRenderer: true
+//   });
+// }
 
 async function createWindow() {
   const win = new BrowserWindow({
@@ -25,11 +25,10 @@ async function createWindow() {
 
   if (env === "development") {
     await win.loadURL(`http://localhost:5173/water`);
+    win.webContents.openDevTools({ mode: 'right' });
   } else {
     await win.loadFile('../web/dist/index.html');
   }
-
-  win.webContents.openDevTools({ mode: 'right' });
 
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);

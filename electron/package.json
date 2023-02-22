@@ -5,23 +5,22 @@
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "cross-env NODE_ENV=production electron-forge make"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.4",
-    "@electron-forge/maker-deb": "^6.0.4",
-    "@electron-forge/maker-rpm": "^6.0.4",
-    "@electron-forge/maker-squirrel": "^6.0.4",
-    "@electron-forge/maker-zip": "^6.0.4",
+    "@electron-forge/cli": "^6.0.5",
+    "@electron-forge/maker-deb": "^6.0.5",
+    "@electron-forge/maker-rpm": "^6.0.5",
+    "@electron-forge/maker-squirrel": "^6.0.5",
+    "@electron-forge/maker-zip": "^6.0.5",
     "electron": "^22.2.0",
-    "electron-reload": "^2.0.0-alpha.1",
     "electron-reloader": "^1.2.3"
   },
   "dependencies": {
+    "cross-env": "^7.0.3",
     "electron-squirrel-startup": "^1.0.0"
   }
 }
