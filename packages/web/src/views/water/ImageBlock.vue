@@ -19,6 +19,7 @@ import { ElMessage } from 'element-plus';
 import { fabric } from 'fabric';
 import RightMenu from './RightMenu.vue';
 import global from '../../common/global';
+import { getContainerSize } from '../../common/util';
 
 const props = defineProps({
   clickUpload: Function,
@@ -31,7 +32,7 @@ const props = defineProps({
 // 这东西转成proxy传给子组件有问题
 let canvas: fabric.Canvas;
 let canvasInit = ref(false);
-const { currentPic } = storeToRefs(waterStore);
+const { currentPic, outputPath } = storeToRefs(waterStore);
 const { imgList } = waterStore; // 引用类型不需要storeToRefs
 const plusDiv = ref();
 const dragOver = ref(false);
@@ -54,20 +55,22 @@ onMounted(() => {
 });
 
 watch(currentPic, () => {
-  fabric.Image.fromURL(currentPic.value!, (img) => {
-    // 设置画布和图片一样大
-    const [imgWidth, imgHeight] = [img.width!, img.height!];
-    const [canvasWidth, canvasHeight] = getContainerSize(imgWidth, imgHeight);
-    canvas.setWidth(canvasWidth);
-    canvas.setHeight(canvasHeight);
-    img.set({
-      scaleX: canvasWidth / imgWidth,
-      scaleY: canvasHeight / imgHeight,
+  if(currentPic.value?.base64) {
+    fabric.Image.fromURL(currentPic.value.base64, (img) => {
+      // 设置画布和图片一样大
+      const [imgWidth, imgHeight] = [img.width!, img.height!];
+      const [canvasWidth, canvasHeight] = getContainerSize(imgWidth, imgHeight);
+      canvas.setWidth(canvasWidth);
+      canvas.setHeight(canvasHeight);
+      img.set({
+        scaleX: canvasWidth / imgWidth,
+        scaleY: canvasHeight / imgHeight,
+      });
+      // 设置背景
+      canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+      canvas.renderAll();
     });
-    // 设置背景
-    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
-    canvas.renderAll();
-  });
+  }
 });
 
 
@@ -87,36 +90,22 @@ function addDropEvent() {
   plusDiv.value.addEventListener('drop', function (event: DragEvent) {
     event.preventDefault();
     dragOver.value = false;
-    const files = event.dataTransfer!.files;
+    const files = event.dataTransfer!.files as unknown as Array<File & { path?: string }>;
     const imgFiles = [...files].filter(file => file.type.includes('image'));
     if (imgFiles.length === 0) {
-      ElMessage({
-        showClose: true,
-        message: '仅支持上传图片文件！',
-        type: 'warning',
-      });
+      ElMessage.warning('仅支持上传图片文件！');
       return;
     }
+    if (imgFiles[0].path && !outputPath.value) {
+      const path = imgFiles[0].path;
+      outputPath.value = path.substring(0, path.lastIndexOf('/'));
+    }
+
     if (imgFiles.length < files.length) {
-      ElMessage({
-        showClose: true,
-        message: '已添加图片，过滤非图片文件',
-        type: 'warning',
-      });
+      ElMessage.warning('已添加图片，过滤非图片文件');
     }
     props.upload(imgFiles);
   });
-}
-
-function getContainerSize(imgWidth: number, imgHeight: number) {
-  const container = document.querySelector('.image_block');
-  const maxWidth = container!.clientWidth;
-  const maxHeight = container!.clientHeight;
-  const aspectRatio = imgWidth / imgHeight;
-  if (aspectRatio > maxWidth / maxHeight) {
-    return [maxWidth, imgHeight / (imgWidth / maxWidth)];
-  }
-  return [imgWidth / (imgHeight / maxHeight), maxHeight];
 }
 </script>
 

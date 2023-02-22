@@ -4,11 +4,10 @@
       <div class="image_small">
         <img
           :class="pic === currentPic ? 'image_main_select' : ''"
-          :src="pic"
+          :src="pic.base64"
           class="image_main"
           v-on:click="selectPic(pic)"
         />
-
         <CircleCloseFilled v-on:click="deletePic(pic)" class="icon cancel_icon" />
       </div>
     </template>
@@ -17,16 +16,16 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import waterStore from './waterStore';
+import waterStore, { PicType } from './waterStore';
 
 const { currentPic } = storeToRefs(waterStore);
 const { imgList } = waterStore; // 引用类型不需要storeToRefs
 
-function selectPic(selectPic: string) {
+function selectPic(selectPic: PicType) {
   currentPic.value = selectPic;
 }
 
-function deletePic(selectPic: string) {
+function deletePic(selectPic: PicType) {
   const index = imgList.indexOf(selectPic);
   imgList.splice(index, 1);
   if (selectPic === currentPic.value) {

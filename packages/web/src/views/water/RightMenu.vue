@@ -46,20 +46,17 @@ function rightMenuCopyObj() {
 
 async function rightMenuCopy() {
   try {
+    canvas.discardActiveObject();
+    canvas.renderAll();
+    // fabric的canvas.toDataURL会压缩图片质量，使用原生的canvas
     const htmlCanvas = document.querySelector('canvas');
-    const base64 = htmlCanvas!.toDataURL();
+    const base64 = htmlCanvas!.toDataURL('image/jpeg', 1);
     const clipboardItemInput = new ClipboardItem({ 'image/png': base64ToBlob(base64, 'image/png') });
     await navigator.clipboard.write([clipboardItemInput]);
-    ElMessage({
-      message: '已复制到剪切板',
-      type: 'success',
-    });
+    ElMessage.success('已复制到剪切板');
   } catch (e) {
     console.error(e);
-    ElMessage({
-      message: '复制失败',
-      type: 'warning',
-    });
+    ElMessage.warning('复制失败');
   } finally {
     rightMenuData.show = false;
     objRightMenuData.show = false;
@@ -68,19 +65,16 @@ async function rightMenuCopy() {
 
 async function rightMenuDownload() {
   try {
+    canvas.discardActiveObject();
+    canvas.renderAll();
+    // fabric的canvas.toDataURL会压缩图片质量，使用原生的canvas
     const htmlCanvas = document.querySelector('canvas');
     const base64 = htmlCanvas!.toDataURL('image/jpeg', 1);
     await downloadFile2(base64, 'aaa.jpg');
-    ElMessage({
-      message: '下载成功',
-      type: 'success',
-    });
+    ElMessage.success('下载成功');
   } catch (e) {
     console.error(e);
-    ElMessage({
-      message: '下载失败',
-      type: 'warning',
-    });
+    ElMessage.warning('下载失败');
   } finally {
     rightMenuData.show = false;
     objRightMenuData.show = false;
@@ -100,7 +94,7 @@ onMounted(() => {
       `;
       // 点击水印
       if (opt.target) {
-        console.log(opt.target);
+        // console.log(opt.target);
         rightClickObj = opt.target;
         objRightMenuData.show = true;
         objRightMenuData.style = absoluteStyle;

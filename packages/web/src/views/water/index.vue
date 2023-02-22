@@ -9,7 +9,7 @@
       <Add />
     </div>
     <div class="bottom">
-<!--      <Output />-->
+      <Output />
     </div>
   </div>
   <input
@@ -29,13 +29,13 @@ import ImageBlock from './ImageBlock.vue';
 import ImageScroll from './ImageScroll.vue';
 import Control from './Control.vue';
 import Add from './Add.vue';
-// import Output from './Output.vue';
+import Output from './Output.vue';
 import { storeToRefs } from 'pinia';
-import waterStore from './waterStore';
+import waterStore, { PicType } from './waterStore';
 import global from '../../common/global';
 import { addWater } from '../../common/util';
 
-const { currentPic } = storeToRefs(waterStore);
+const { currentPic, outputPath } = storeToRefs(waterStore);
 const { imgList } = waterStore; // 引用类型不需要storeToRefs
 const uploadInput = ref();
 
@@ -48,25 +48,32 @@ function uploadPre() {
 
 function uploadEvent(event: Event) {
   const files = (event.target as any).files;
+  if (files[0].path && !outputPath.value) {
+    const path = files[0].path;
+    outputPath.value = path.substring(0, path.lastIndexOf('/'));
+  }
   upload(files);
 }
 
 function upload(files: File[]) {
   const loading = ElLoading.service();
-  const promises: Promise<string>[] = [];
+  const promises: Promise<PicType>[] = [];
   for (let i = 0; i < files.length; i++) {
-    promises.push(new Promise<string>(resolve => {
+    promises.push(new Promise<PicType>(resolve => {
       const reader = new FileReader();
       reader.readAsDataURL(files[i]);
-      reader.onload = function (e) {
-        resolve(reader.result as string);
+      reader.onload = function () {
+        resolve({
+          base64: reader.result as string,
+          name: files[i].name
+        });
       };
     }));
   }
   return Promise.all(promises).then(res => {
     // 去重
     for (let i = 0; i < res.length; i++) {
-      if (imgList.indexOf(res[i]) === -1) {
+      if (!imgList.find(item => item.base64 === res[i].base64)) {
         imgList.push(res[i]);
       }
     }

@@ -299,3 +299,14 @@ export async function downloadFile2(base64: string, fileName: string) {
   await writable.write(base64ToBlob(base64));
   await writable.close();
 }
+
+export function getContainerSize(imgWidth: number, imgHeight: number) {
+  const container = document.querySelector('.image_block');
+  const maxWidth = container!.clientWidth;
+  const maxHeight = container!.clientHeight;
+  const aspectRatio = imgWidth / imgHeight;
+  if (aspectRatio > maxWidth / maxHeight) {
+    return [maxWidth, imgHeight / (imgWidth / maxWidth)];
+  }
+  return [imgWidth / (imgHeight / maxHeight), maxHeight];
+}

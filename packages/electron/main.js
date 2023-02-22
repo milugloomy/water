@@ -15,6 +15,7 @@ if (env === 'development') {
 async function createWindow() {
   const win = new BrowserWindow({
     width: 1220,
+    // width: 1820,
     height: 800,
     webPreferences: {
       nodeIntegration: true,
@@ -38,15 +39,13 @@ app.whenReady().then(() => {
   initIpc();
   createWindow();
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
+  // app.on('activate', () => {
+  //   if (BrowserWindow.getAllWindows().length === 0) {
+  //     createWindow();
+  //   }
+  // });
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  app.quit();
 });

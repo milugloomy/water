@@ -10,11 +10,7 @@ const globalValue: GlobalValueType = {
   _canvas: undefined,
   get canvas() {
     if (!this._canvas) {
-      ElMessage({
-        showClose: true,
-        message: 'canvas还未准备好',
-        type: 'warning',
-      });
+      ElMessage.warning('canvas还未准备好');
       throw new Error('canvas还未准备好');
     }
     return this._canvas;

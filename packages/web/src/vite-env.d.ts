@@ -17,7 +17,9 @@ declare global {
       electron: string;
     };
     electronAPI: {
-      openDirectoryDialog: () => Promise<string>;
+      openDirectoryDialog: (defaultPath?: string) => Promise<string>;
+      saveFile: (filePath: string, data: any) => Promise<void>;
+      openDirectory: (directoryPath: string) => void;
     }
   }
 }

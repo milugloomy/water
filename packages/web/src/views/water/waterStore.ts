@@ -16,13 +16,20 @@ export const initWaterValue = {
   lineHeight: 1.2
 }
 
+export type PicType = {
+  base64: string;
+  name: string;
+};
+
 const useWaterStore = defineStore('waterStore', () => {
-  const currentPic = ref<string | undefined>();
+  const currentPic = ref<PicType>();
+  const outputPath = ref<string | undefined>();
   const waterList = reactive<Array<typeof initWaterValue>>([]);
-  const imgList = reactive<string[]>([]);
+  const imgList = reactive<PicType[]>([]);
 
   return {
     currentPic,
+    outputPath,
     waterList,
     imgList,
   };
