@@ -27,7 +27,7 @@ async function createWindow() {
     await win.loadURL(`http://localhost:5173/water`);
     win.webContents.openDevTools({ mode: 'right' });
   } else {
-    await win.loadFile('../web/dist/index.html');
+    await win.loadFile('./dist/index.html');
   }
 
   const menu = Menu.buildFromTemplate(menuTemplate);
