@@ -24,7 +24,8 @@ async function createWindow() {
   });
 
   if (env === "development") {
-    await win.loadURL(`http://localhost:5173/water`);
+    await win.loadFile('./dist/index.html');
+    // await win.loadURL(`http://localhost:5173/water`);
     win.webContents.openDevTools({ mode: 'right' });
   } else {
     await win.loadFile('./dist/index.html');

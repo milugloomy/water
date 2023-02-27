@@ -4,6 +4,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/water/',
   resolve: {
     // 设置别名
     alias: {

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
+    "@vue/shared": "^3.2.47",
     "dayjs": "^1.11.5",
     "element-plus": "2.2.9",
     "fabric": "^5.2.4",

@@ -2,22 +2,22 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { defineAsyncComponent } from 'vue';
 
 const router = createRouter({
-  history: createWebHistory(),  // history 模式
+  history: createWebHistory('/water/'),  // history 模式
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('./views/hello.vue'),
-      meta: {
-        title: '首页',
-      },
-    },
-    {
-      path: '/water',
       name: 'water',
       component: () => import('./views/water/index.vue'),
       meta: {
-        title: '列表页',
+        title: '水印',
+      },
+    },
+    {
+      path: '/hello',
+      name: 'hello',
+      component: () => import('./views/hello.vue'),
+      meta: {
+        title: 'hello',
       },
     },
     {
