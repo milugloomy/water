@@ -1,14 +1,14 @@
 {
   "name": "electron-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "water mark",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "cross-env NODE_ENV=production electron-forge make"
   },
-  "author": "",
+  "author": "qiba",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.5",
