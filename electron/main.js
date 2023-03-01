@@ -1,22 +1,21 @@
 const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const menuTemplate = require('./menu');
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'production';
 const initIpc = require('./ipc');
 
 // hot reload
-// if (env === 'development') {
-//   require('electron-reloader')(module, {
-//     debug: true,
-//     watchRenderer: true
-//   });
-// }
+if (env === 'development') {
+  require('electron-reloader')(module, {
+    debug: true,
+    watchRenderer: true
+  });
+}
 
 async function createWindow() {
   const win = new BrowserWindow({
-    width: 1220,
-    // width: 1820,
-    height: 800,
+    width: 1230,
+    height: 830,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js')
@@ -24,11 +23,10 @@ async function createWindow() {
   });
 
   if (env === "development") {
-    await win.loadFile('./dist/index.html');
-    // await win.loadURL(`http://localhost:5173/water`);
+    await win.loadURL(`http://localhost:5173/water`);
     win.webContents.openDevTools({ mode: 'right' });
   } else {
-    await win.loadFile('./dist/index.html');
+    await win.loadURL('https://www.songweisuo.com/water');
   }
 
   const menu = Menu.buildFromTemplate(menuTemplate);

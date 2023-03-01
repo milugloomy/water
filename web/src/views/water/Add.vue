@@ -129,7 +129,16 @@ const options = isMac ? [
   { fontFamily: 'Xingkai SC', label: '行楷' },
   { fontFamily: 'Baoli SC', label: '隶书' },
   { fontFamily: 'Wawati SC', label: '娃娃体' },
-] : [];
+] : [
+  { fontFamily: '黑体', label: '黑体' },
+  { fontFamily: '微软雅黑', label: '微软雅黑' },
+  { fontFamily: '宋体', label: '宋体' },
+  { fontFamily: '仿宋', label: '仿宋' },
+  { fontFamily: '楷体', label: '楷体' },
+  { fontFamily: '华文行楷', label: '行楷' },
+  { fontFamily: '隶书', label: '隶书' },
+  { fontFamily: '幼圆', label: '幼圆' }
+];
 
 function remove(index: number) {
   removeWater(waterList[index].name)

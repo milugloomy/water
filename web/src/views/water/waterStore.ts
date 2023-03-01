@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue';
+import {isMac} from "../../common/util";
 
 export const initWaterValue = {
   text: '这是水印',
-  fontFamily: 'SimSong',
+  fontFamily: isMac ? 'SimSong' : '宋体',
   fontSize: 28,
   color: 'rgba(234, 100, 100)',
   bold: false,
