@@ -23,7 +23,7 @@ async function createWindow() {
   });
 
   if (env === "development") {
-    await win.loadURL(`http://localhost:5173/water`);
+    await win.loadURL(`http://localhost:5173/water/`);
     win.webContents.openDevTools({ mode: 'right' });
   } else {
     await win.loadURL('https://www.songweisuo.com/water');

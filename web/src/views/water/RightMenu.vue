@@ -40,7 +40,20 @@ function rightMenuDelete() {
 }
 
 function rightMenuCopyObj() {
-  addWater();
+  addWater({
+    text: rightClickObj.text,
+    fontFamily: rightClickObj.fontFamily,
+    fontSize: rightClickObj.fontSize,
+    color: rightClickObj.fill,
+    bold: rightClickObj.fontWeight >= 600,
+    italic: rightClickObj.fontStyle?.includes('italic'),
+    rotate: rightClickObj.angle,
+    opacity: rightClickObj.opacity * 100,
+    lineHeight: rightClickObj.lineHeight,
+    position: 1,
+    expand: true,
+    name: '',
+  });
   objRightMenuData.show = false;
 }
 

@@ -43,12 +43,12 @@ export function getTopLeft(lastObject: any): { top: number, left: number } {
   };
 }
 
-export const addWater = () => {
+export const addWater = (waterValue = initWaterValue) => {
   const canvas = global.canvas;
   const { waterList } = waterStore;
   const newName = getSeconds();
   waterList.push({
-    ...initWaterValue,
+    ...waterValue,
     name: newName,
   });
   const textProps = waterList[waterList.length - 1];
@@ -67,7 +67,7 @@ export const addWater = () => {
     name: newName,
     top: top,
     left: left,
-    angle: 0,
+    angle: waterValue.rotate,
     fontFamily: textProps.fontFamily,
     fontSize: textProps.fontSize,
     fill: textProps.color, // 填充色：橙色
@@ -120,10 +120,11 @@ export const addWater = () => {
     canvas.renderAll();
   });
   watch(() => textProps.color, () => {
+    text.fill = textProps.color;
+    canvas.renderAll();
     // fill修改不生效，但改动fontSize加1减1后就生效了
     text.fontSize = textProps.fontSize + 1;
     text.fontSize = textProps.fontSize - 1;
-    text.fill = textProps.color;
     canvas.renderAll();
   });
   watch(() => textProps.bold, () => {
