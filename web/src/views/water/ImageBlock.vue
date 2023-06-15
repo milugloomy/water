@@ -60,6 +60,9 @@ watch(currentPic, () => {
       // 设置画布和图片一样大
       const [imgWidth, imgHeight] = [img.width!, img.height!];
       const [canvasWidth, canvasHeight] = getContainerSize(imgWidth, imgHeight);
+      // fabric.js 9130行
+      // fabric会根据devicePixelRatio来设置canvas窗口大小和实际大小
+      fabric.devicePixelRatio = imgWidth / canvasWidth;
       canvas.setWidth(canvasWidth);
       canvas.setHeight(canvasHeight);
       img.set({
